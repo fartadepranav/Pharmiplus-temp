@@ -37,7 +37,9 @@ const Products = ()=>{
     async function ret(){
     await axios.get('http://localhost:5000/api/products')
     .then((res)=>{
-        addProds(res.data);
+        res.data.map((item)=>{
+            prods.push(item);
+        })
     });
 }
 
