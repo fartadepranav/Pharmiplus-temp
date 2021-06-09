@@ -5,60 +5,17 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import * as FaIcons from 'react-icons/fa';
 import * as Othericons from 'react-icons/hi';
 import {MdCancel,MdRemoveCircleOutline} from 'react-icons/md';
-import { ProSidebar, Menu, MenuItem, SubMenu } from 'react-pro-sidebar';
+import { ProSidebar, Menu, MenuItem} from 'react-pro-sidebar';
 import 'react-pro-sidebar/dist/css/styles.css';
 import CartItem from './CartItem'
+import axios from 'axios';
 
-const prods = [
-    {
-        name: "Remdesivir",
-        commodity : "covid",
-        dosage: "10mg",
-        stock: "100",
-        image : "https://news.uchicago.edu/sites/default/files/styles/full_width/public/images/2021-01/remdesivir.jpg?itok=ymgCmBpM",
-        booked : "1",
-        price: "100"
-    },
-    {
-        name: "Zandu Balm",
-        commodity : "Blood Pressure",
-        dosage: "10mg",
-        stock: "100",
-        image : "https://images-na.ssl-images-amazon.com/images/I/71f5aLlnK9L._AC_SL1500_.jpg",
-        booked : "1",
-        price: "100"
-    },
-    {
-        name: "Crocin",
-        commodity : "General",
-        dosage: "10mg",
-        stock: "100",
-        image : "https://newassets.apollo247.com/pub/media/catalog/product/c/r/cro0023.jpg",
-        booked : "1",
-        price: "100"
-    },
-    {
-        name: "Amlodep",
-        commodity : "Blood Pressure",
-        dosage: "10mg",
-        stock: "100",
-        image : "https://res.cloudinary.com/du8msdgbj/image/upload/l_watermark_346,w_690,h_700/a_ignore,w_690,h_700,c_pad,q_auto,f_auto/v1530272291/dfgdjamyxlklyrvf6gba.jpg",
-        booked : "1",
-        price: "100"
-    },
-    {
-        name: "Dolo",
-        commodity : "Paracetamol",
-        dosage: "10mg",
-        stock: "100",
-        image : "https://www.practostatic.com/practopedia-v2-images/res-750/a0d397a1196c2c92ef1ffa24db024e28b11657bc1.jpg",
-        booked : "1",
-        price: "100"
-    }
-]
+
+
 
 const Products = ()=>{
     const [search, addSearch] = useState('');
+    const [prods,addProds] = useState([]);
     const [products, upProd] = useState(prods);
     const [lists, addlist] = useState([]);
     const [disp, toggle] = useState("none");
@@ -76,6 +33,15 @@ const Products = ()=>{
     const [showWallet, setShowW] = useState(false);
     const handleCloseW = () => setShowW(false);
     const handleShowW = () => setShowW(true);
+    
+    async function ret(){
+    await axios.get('http://localhost:5000/api/products')
+    .then((res)=>{
+        addProds(res.data);
+    });
+}
+
+    ret();
 
     return(
     <div>
@@ -133,7 +99,7 @@ const Products = ()=>{
         </Modal.Footer>
 </Modal>
 
-        <h1>List of Medicines</h1>
+        <h1 className="display-2" style={{textAlign:'center',margin:20}}>All the Meds you need</h1>
         <h1>{curr}</h1>
         
 
@@ -144,7 +110,7 @@ const Products = ()=>{
 
         <div className="Kart" onClick={
             ()=>{
-                if(disp == "block"){
+                if(disp === "block"){
                     toggle("none");
                 }
                 else{
@@ -184,7 +150,7 @@ const Products = ()=>{
         </ProSidebar>
         </div>
         <div style = {{textAlign: "center"}}>
-            <input type="text" style={{width:"400px",height:"35px"}} onChange={
+            <input placeholder="Search your Meds here" type="text" style={{marginTop:50,width:"400px",height:"35px"}} onChange={
                 (event)=>{
                     let list = [];
                     addSearch(event.target.value.trim().toLowerCase());
@@ -214,7 +180,6 @@ const Products = ()=>{
                 }
             }
             />
-            <Button variant="primary" style={{margin:"10px",top:"117px",position:"absolute"}}><FaIcons.FaSearch/></Button>
         </div>
         <CardDeck style={{display : 'flex',padding:'50px',margin:'50px',flexWrap: 'wrap'}}>
         {products.map((prod)=>
@@ -226,7 +191,7 @@ const Products = ()=>{
                     }
                     let flag= true;
                     for(let i=0;i<lists.length;i++){
-                        if(lists[i].name == newItem.name){
+                        if(lists[i].name === newItem.name){
                             flag = false;
                             break;
                         }

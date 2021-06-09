@@ -1,7 +1,6 @@
-import React , {Fragment , useState } from 'react';
-import * as FaIcons from 'react-icons/fa';
+import React , {useState } from 'react';
 import * as Othericons from 'react-icons/hi';
-import {MdCancel,MdRemoveCircleOutline} from 'react-icons/md';
+import {MdRemoveCircleOutline} from 'react-icons/md';
 import {MenuItem} from 'react-pro-sidebar';
 
 const CartItem = (props)=>{

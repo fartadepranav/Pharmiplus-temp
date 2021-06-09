@@ -5,7 +5,7 @@ import * as FaIcons from 'react-icons/fa';
 
 const Cards = (props)=>{
     return(
-        <Card className = "card text-center border-primary mb-3" style={{ width: '20rem',margin:'50px'}}>
+        <Card className = "card text-center border-primary mb-3" style={{ maxWidth: '20rem',minWidth:'20rem',margin:'30px'}}>
             <Card.Img variant="top" src={props.product.image} height="300px" width="300px"/>
             <Card.Body>
             <Card.Title>{props.product.name}</Card.Title>
