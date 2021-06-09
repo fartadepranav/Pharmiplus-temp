@@ -1,13 +1,13 @@
-import React , {Fragment , useState } from 'react';
+import React , {useEffect , useState } from 'react';
 import Cards from './cards';
 import {CardDeck,Button,Modal} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import * as FaIcons from 'react-icons/fa';
 import * as Othericons from 'react-icons/hi';
-import {MdCancel,MdRemoveCircleOutline} from 'react-icons/md';
+import {MdCancel} from 'react-icons/md';
 import { ProSidebar, Menu, MenuItem} from 'react-pro-sidebar';
 import 'react-pro-sidebar/dist/css/styles.css';
-import CartItem from './CartItem'
+import CartItem from './CartItem';
 import axios from 'axios';
 
 
@@ -20,30 +20,42 @@ const Products = ()=>{
     const [lists, addlist] = useState([]);
     const [disp, toggle] = useState("none");
     const [disp1, toggle1] = useState("none");
+    const [disp2, toggle2] = useState("none");
     const [sum,addSum] =useState(0);
     const [balance,recharge] =useState(0);
     const [ip,changeIp] = useState(0);
-    let curr,price,med,val;
+    let curr;
 
     const [show, setShow] = useState(false);
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
-
     
     const [showWallet, setShowW] = useState(false);
     const handleCloseW = () => setShowW(false);
     const handleShowW = () => setShowW(true);
     
-    async function ret(){
-    await axios.get('http://localhost:5000/api/products')
+    
+    useEffect(()=>{
+    axios.get('http://localhost:5000/api/products')
     .then((res)=>{
         res.data.map((item)=>{
             prods.push(item);
         })
-    });
-}
+        console.log('once');
+        addProds(prods)
+        upProd(prods);
+    })
+    .catch(function (error) {
+        // handle error
+        console.log(error);
+      });
 
-    ret();
+    },[prods]);
+
+
+    document.body.addEventListener('click',()=>{
+        toggle2("block");
+    })
 
     return(
     <div>
@@ -54,7 +66,7 @@ const Products = ()=>{
         </Modal.Header>
         <Modal.Body>Would you like to confirm your order? <br/><br/>
             {lists.map((item)=>
-            <h5>{item.name} : {item.price} X {item.quantity} = {item.price*item.quantity}</h5>
+            <h5 key={item.name}>{item.name} : {item.price} X {item.quantity} = {item.price*item.quantity}</h5>
 
             )}
             --------------------------------------------<br/>
@@ -68,11 +80,19 @@ const Products = ()=>{
               if(sum>balance){
                   alert('Insufficient Funds in your PharmiWallet! Recharge to buy more Medicines');
               }
+              else if(sum<=0){
+                  alert("Cannot place order with no items");
+              }
               else{
                 recharge(parseFloat(balance)-parseFloat(sum));
                 addlist([]);
                 addSum(0);
                 toggle1("none");
+                axios.post('http://localhost:5000/api/getOrders',{
+                    userID : localStorage.getItem('user'),
+                    product: lists,
+                    status: "ordered"
+                })
                 alert("Products Booked");
               }
               handleClose();}}>
@@ -131,14 +151,20 @@ const Products = ()=>{
                 <Menu iconShape="square" style= {{position:'relative',top:20}}>
                 <MenuItem><h1 className="display-6" style={{fontSize:"30px"}}>Your Medi-Cart</h1></MenuItem>
                     {lists.map((item)=>
-                        <CartItem items={item} man = {
+                        <CartItem key={item.name} items={item} man = {
                             (med,price,val) =>{
                                 for(let i=0;i<lists.length;i++)
                                 {
-                                    if(lists[i].name == med){
+                                    if(lists[i].name === med){
                                         if(lists[i].quantity+val>=0){
                                             lists[i].quantity+=val;
+                                            if(val>0){
                                             addSum(parseFloat(sum)+parseFloat(price));
+                                            }
+                                            else{
+                                                addSum(parseFloat(sum)-parseFloat(price));    
+                                            }
+                                            
                                         }
                                     }
                                 }
@@ -163,7 +189,7 @@ const Products = ()=>{
                     for(let i=0;i<prods.length;i++)
                     {
                         let name = prods[i].name.toLowerCase().trim();
-                        let comm = prods[i].commodity.toLowerCase().trim();
+                        let comm = prods[i].category.toLowerCase().trim();
                         if(name.includes(search) || comm.includes(search))
                         {
                             list.push(prods[i]);
@@ -183,9 +209,9 @@ const Products = ()=>{
             }
             />
         </div>
-        <CardDeck style={{display : 'flex',padding:'50px',margin:'50px',flexWrap: 'wrap'}}>
+        <CardDeck key={products} style={{display : 'flex',padding:'50px',margin:'50px',flexWrap: 'wrap'}}>
         {products.map((prod)=>
-            <Cards product = {prod} handleClick = {(curr,price) => {
+            <Cards key={prod.name} product = {prod} handleClick = {(curr,price) => {
                     const newItem ={
                         name: curr,
                         price: price,

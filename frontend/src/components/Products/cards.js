@@ -1,4 +1,4 @@
-import React , {Fragment , useState } from 'react';
+import React from 'react';
 import {Card,Button} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import * as FaIcons from 'react-icons/fa';
@@ -19,6 +19,7 @@ const Cards = (props)=>{
             </Card.Body>
         </Card>
     );
+    
 }
 
 export default Cards;
