@@ -1,6 +1,7 @@
 const express = require('express');
 const connectDB = require('./config/db');
 const Product = require('./Models/Product');
+const Order = require('./Models/Orders');
 const cors = require('cors');
 const app = express();
 
@@ -34,3 +35,38 @@ app.get('/api/products', (req,res) => {
       });
   });
 
+  // Add new Orders to the DB
+  app.post('/api/getOrders',(req,res) => {
+    let data = req.body;
+    let user = data.userID;
+    let product = data.product;
+    let status = data.status;
+    console.log(user,product,status);
+    const order = new Order(
+      {
+        userID: user,
+        product: product,
+        status: status
+      }
+    );
+
+    order.save()
+        .then((results) => {
+          res.send(results);
+          console.log(results);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+  })
+
+  // Get all orders from mongoDB
+app.get('/api/orders', (req,res) => {
+  Order.find()
+    .then((result) => {
+        res.send(result);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+});
