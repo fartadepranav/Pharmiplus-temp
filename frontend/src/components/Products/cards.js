@@ -10,9 +10,10 @@ const Cards = (props)=>{
             <Card.Body>
             <Card.Title>{props.product.name}</Card.Title>
             <Card.Text>
-            Commodity : {props.product.commodity}<br/>
+            Category : {props.product.category}<br/>
             Dosage: {props.product.dosage}<br/>
             Stock: {props.product.stock}<br/>
+           Price: {props.product.price}<br/> 
             </Card.Text>
             <Button variant="primary" onClick={() =>props.handleClick(props.product.name,props.product.price)}>Add to Cart &nbsp; <FaIcons.FaShoppingCart/></Button>
             </Card.Body>
