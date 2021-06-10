@@ -53,7 +53,7 @@ const Products = ()=>{
     },[prods]);
 
 
-    document.body.addEventListener('click',()=>{
+    document.body.addEventListener('mouseover',()=>{
         toggle2("block");
     })
 
@@ -232,6 +232,13 @@ const Products = ()=>{
                     if(lists.length>-1){
                         toggle1("block");
                     }
+            }}      edit = {(name)=>{
+                for(let i=0;i<products.length;i++){
+                    if(products[i].name ==name){
+                    products[i].price = products[i].price - (products[i].price*0.3);
+                    }
+                }
+
             }}></Cards>
             
         )}
