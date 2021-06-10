@@ -9,7 +9,7 @@ const Orders = () =>
     
     const [ord,addord] = useState([]);
     const [orders, upord] = useState(ord);
-    const [disp2, toggle2] = useState("none");
+    const [disp2, toggle2] = useState(0);
 
     
 
@@ -29,8 +29,12 @@ const Orders = () =>
           });
         },[ord]);
 
+        document.body.addEventListener('mouseover',()=>{
+            toggle2(1);
+        })
+
         document.body.addEventListener('click',()=>{
-            toggle2("block");
+            toggle2(2);
         })
 
     return(
