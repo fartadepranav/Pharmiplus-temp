@@ -11,6 +11,8 @@ const Orders = () =>
     const [orders, upord] = useState(ord);
     const [disp2, toggle2] = useState("none");
 
+    
+
     useEffect(()=>{
         axios.get('http://localhost:5000/api/orders')
         .then((res)=>{
@@ -36,7 +38,7 @@ const Orders = () =>
             <div className='bgActive'><h1>Your Orders </h1></div>
             <CardDeck key={orders} style={{padding:'50px',margin:'50px',width:'100%',display:'block',marginTop:'0',marginLeft:'0'}}>
             {orders.map((ord)=>
-                <Cards order = {ord} ></Cards>                             
+                <Cards order = {ord}></Cards>                             
             )} 
         </CardDeck>
         </div>

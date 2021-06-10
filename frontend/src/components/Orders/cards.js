@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React,{useEffect, useState} from 'react';
 import {Card,Button} from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import * as FaIcons from 'react-icons/fa';
@@ -7,20 +7,35 @@ import axios from 'axios';
 const Cards = (props)=>{
 
     const [isorder,setorder] = useState(false);
-    let vis = "visible";
+    const [sum,addSum] = useState("");
     let timestamp = new Date(props.order.date).valueOf();
+    const today1 = Date.now().valueOf();
+    const [diff,ChangeDiff] = useState(today1-timestamp);
+    
+    const [vis,setvis] =useState('block');
+    useEffect(() => {
+        if(props.order.status==="cancelled")
+        {
+            addSum("true");
+        }
+        if(diff>=43200000)
+        {
+            addSum("true");
+        }
+        
+        if(props.order.userID == localStorage.getItem('user'))
+        {
+           setvis("block");
+        }
+        else
+        {
+            setvis("none");
+        }
+    },[])
 
-    if(props.order.userID == localStorage.getItem('user'))
-    {
-        vis="visible";
-    }
-    else
-    {
-        vis="hidden";
-    }
 
     return(
-        <Card className = "card border-primary mb-5 " style={{ maxWidth:'1250px',margin:'50px',minWidth:'200px',padding:'10px',visibility:{vis}}}>
+        <Card className = "card border-primary mb-5 " style={{ maxWidth:'1250px',margin:'50px',minWidth:'200px',padding:'10px', display :vis}}>
            {// <Card.Img variant="top" src={props.product.image} height="300px" width="300px"/> 
            }
             <div className=''>
@@ -35,13 +50,15 @@ const Cards = (props)=>{
                                 <li>{text.name} &nbsp; X {text.quantity} &nbsp; qty</li>
                                 ))}</ol>
                             Status: {props.order.status}<br/>
-                            Date: {timestamp}<br/>
+                            Date: {diff} 
                             </Card.Text>
                         </p>
                     </div>
                     <div >
-                         <Button variant="danger" disabled={props.order.status ==="ordered" ? "" : "true"} onClick={()=>{
-                             axios.put('http://localhost:5000/api/updateorder')
+                         <Button variant="danger" disabled={sum} onClick={()=>{
+                             axios.post('http://localhost:5000/api/orderupdate',{
+                                 orderID : props.order._id
+                             })
                          }}>Cancel Order &nbsp; <FaIcons.FaTrash/></Button>
                     </div>
                 </div>
