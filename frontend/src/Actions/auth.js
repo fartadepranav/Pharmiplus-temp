@@ -25,6 +25,8 @@ export const loadUser = ()=>async dispatch=>{
             type:USER_LOADED,
             payload: res.data
         })
+        localStorage.setItem('user',res.data.email);
+        console.log(res.data);
     } catch (err) {
         dispatch({
             type: AUTH_ERROR
