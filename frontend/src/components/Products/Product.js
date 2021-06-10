@@ -20,7 +20,7 @@ const Products = ()=>{
     const [lists, addlist] = useState([]);
     const [disp, toggle] = useState("none");
     const [disp1, toggle1] = useState("none");
-    const [disp2, toggle2] = useState("none");
+    const [disp2, toggle2] = useState(0);
     const [sum,addSum] =useState(0);
     const [balance,recharge] =useState(0);
     const [ip,changeIp] = useState(0);
@@ -53,8 +53,14 @@ const Products = ()=>{
     },[prods]);
 
 
-    document.body.addEventListener('mouseover',()=>{
-        toggle2("block");
+    document.addEventListener('mouseover',()=>{
+        toggle2(1);
+        
+    })
+
+    document.addEventListener('click',()=>{
+        toggle2(2);
+        
     })
 
     return(

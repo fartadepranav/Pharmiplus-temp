@@ -23,7 +23,7 @@ const Login = ({loginAction, isAuthenticated}) => {
       //if user successfully logged then redirect to required component
     if (isAuthenticated){
       alert('user logged in')
-       return <Redirect to ='/Products'/>
+       return <Redirect to ='/home'/>
     }
 
     return (

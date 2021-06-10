@@ -24,7 +24,7 @@ const Cards = (props)=>{
     }, [])
 
     const history = useHistory();
-    const handleClick = () => history.push('/Products');
+    const handleClick = () => history.push(props.link);
     
     return(
         
@@ -40,7 +40,6 @@ const Cards = (props)=>{
            <a style={{display:vis1}}>Price: <strike>{p}</strike> {props.product.price} </a>
            <br/> 
             </Card.Text>
-            <Button variant="primary" onClick={() =>props.handleClick(props.product.name,props.product.price)}>Add to Cart &nbsp; <FaIcons.FaShoppingCart/></Button>
             </Card.Body>
         </Card>
         
