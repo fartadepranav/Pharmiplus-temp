@@ -10,7 +10,9 @@ const Navbar =({auth:{isAuthenticated,loading},logoutAction}) =>{
       <Link to="/home">Home</Link>
        <Link to="/Products">Products</Link> 
        <Link to="/orders"> Orders</Link>
-
+      <div className ='d-flex' style={{paddingLeft:'5px',paddingRight:'5px'}}>
+        Welcome {localStorage.getItem('name')}
+      </div>
      
       <li>
         <a onClick={logoutAction} href="#!">

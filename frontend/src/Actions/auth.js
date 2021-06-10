@@ -26,6 +26,7 @@ export const loadUser = ()=>async dispatch=>{
             payload: res.data
         })
         localStorage.setItem('user',res.data.email);
+        localStorage.setItem('name',res.data.name);
         console.log(res.data);
     } catch (err) {
         dispatch({
