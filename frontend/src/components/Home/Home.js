@@ -12,15 +12,30 @@ import offer2 from './offer-banner.jpg';
 import offer3 from './comp_3step.jpg';
 import {Link} from 'react-router-dom';
 import axios from 'axios';
+import {logoutAction} from '../../Actions/auth';
+import {connect} from 'react-redux';
+import PropTypes from 'prop-types';
 
-const Home =() =>
+const Home =({auth:{isAuthenticated,loading},logoutAction}) =>
 {
+
+    const [link,setlink] = useState("/Products");
+    useEffect(() => {
+      if(isAuthenticated)
+      {
+        setlink("/Products");
+      }
+      else
+      {
+        setlink("/");
+      }
+    });
 
     const [prods,addProds] = useState([]);
     const [products, upProd] = useState(prods);
     const [lists, addlist] = useState([]);
     const [disp1, toggle1] = useState("none");
-    const [disp2, toggle2] = useState("none");
+    const [disp2, toggle2] = useState(0);
     
 
     useEffect(()=>{
@@ -41,14 +56,18 @@ const Home =() =>
         },[prods]);
     
     
-        document.body.addEventListener('mouseover',()=>{
-            toggle2("block");
-        })
+        document.addEventListener('mouseover',()=>{
+            toggle2(1);
+        });
+
+        document.addEventListener('click',()=>{
+            toggle2(2);
+        });
 
     return (
         <div>
         <div className='container-lg' style={{marginTop:'40px',marginBottom:'40px'}}>
-        <Link to="/Products">
+        <Link to={link}>
             <Carousel fade style={{maxHeight:'500px'}}>
             <Carousel.Item>
                 <img className="d-block w-100" src={offer2} alt="First slide" style={{maxHeight:'400px'}} />
@@ -66,7 +85,7 @@ const Home =() =>
         <h2>Offers now !</h2>
         <CardDeck key={products} style={{display : 'flex',padding:'50px',margin:'50px',flexWrap: 'wrap'}}>
         {products.map((prod)=>
-            <Cards key={prod.name} product = {prod} handleClick = {(curr,price) => {
+            <Cards key={prod.name} link={link} product = {prod} handleClick = {(curr,price) => {
                     const newItem ={
                         name: curr,
                         price: price,
@@ -103,4 +122,14 @@ const Home =() =>
     );
 }
 
-export default Home;
+Home.propTypes={
+    logoutAction:PropTypes.func.isRequired,
+    auth:PropTypes.object.isRequired
+ }
+ 
+ const mapSateToProps= state=>({
+   auth:state.auth
+ })
+ 
+ 
+ export default connect(mapSateToProps,{logoutAction})(Home)

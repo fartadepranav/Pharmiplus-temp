@@ -1,10 +1,13 @@
-import React , {Fragment} from 'react';
+import React , {Fragment,useState,useEffect} from 'react';
 import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {logoutAction} from '../../Actions/auth';
 
 const Navbar =({auth:{isAuthenticated,loading},logoutAction}) =>{
+
+
+
   const authLinks = (
     <ul>
       <Link to="/home">Home</Link>
@@ -15,7 +18,7 @@ const Navbar =({auth:{isAuthenticated,loading},logoutAction}) =>{
       </div>
      
       <li>
-        <a onClick={logoutAction} href="#!">
+        <a onClick={logoutAction} href="/">
           <i className="fas fa-sign-out-alt" />{' '}
           <span className="hide-sm">Logout</span>
         </a>
@@ -26,7 +29,7 @@ const Navbar =({auth:{isAuthenticated,loading},logoutAction}) =>{
   const guestLinks = (
     <ul>
       <li>
-        <a href='#!'>Home</a>
+      <Link to="/home">Home</Link>
       </li>
       <li>
         <Link to="/register">Register</Link>

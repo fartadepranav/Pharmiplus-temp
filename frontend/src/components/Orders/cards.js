@@ -54,7 +54,7 @@ const Cards = (props)=>{
                                 <li>{text.name} &nbsp; X {text.quantity} &nbsp; qty</li>
                                 ))}</ol>
                             Status: {props.order.status}<br/>
-                            Date: {diff} 
+                            Date Ordered: {Date(props.order.date)} 
                             </Card.Text>
                         </p>
                     </div>

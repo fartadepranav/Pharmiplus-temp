@@ -29,11 +29,11 @@ const Orders = () =>
           });
         },[ord]);
 
-        document.body.addEventListener('mouseover',()=>{
+        document.addEventListener('mouseover',()=>{
             toggle2(1);
         })
 
-        document.body.addEventListener('click',()=>{
+        document.addEventListener('click',()=>{
             toggle2(2);
         })
 
