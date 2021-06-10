@@ -8,6 +8,8 @@ import Login from './components/LoginSignUp/Login';
 import Register from './components/LoginSignUp/Register';
 import Alert from './components/Layout/Alert';
 import Product from './components/Products/Product';
+import Home from './components/Home/Home';
+import Orders from './components/Orders/Orders';
 //import { Component } from 'react';
 
 //Redux
@@ -39,6 +41,8 @@ const App=() =>{
        <Route exact path ='/register' component={Register}></Route>
        <Route exact path='/login' component={Login}></Route>
        <Route exact path='/products' component={Product}></Route>
+       <Route exact path='/orders' component={Orders}></Route>
+       <Route exact path='/home' component={Home}></Route>
       </Switch>
     </section>
     </Fragment>

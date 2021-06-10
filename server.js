@@ -35,6 +35,7 @@ app.get('/api/products', (req,res) => {
       });
   });
 
+  
   // Add new Orders to the DB
   app.post('/api/getOrders',(req,res) => {
     let data = req.body;
@@ -70,3 +71,11 @@ app.get('/api/orders', (req,res) => {
       console.log(err);
     });
 });
+
+
+//Update order
+app.post('/api/orderupdate', (req,res)=>{
+   let orderId = req.body.orderID;
+   Order.update({_id:orderId},{'status':'cancelled'},{upsert:true})
+      .then((results)=>console.log(results));
+})
