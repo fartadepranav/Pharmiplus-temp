@@ -25,6 +25,7 @@ const Cards = (props)=>{
         if(diff>=43200000)
         {
             addSum("true");
+            props.order.status = "shipped"
         }
         
         if(props.order.userID == localStorage.getItem('user'))
@@ -54,7 +55,7 @@ const Cards = (props)=>{
                                 <li>{text.name} &nbsp; X {text.quantity} &nbsp; qty</li>
                                 ))}</ol>
                             Status: {props.order.status}<br/>
-                            Date Ordered: {Date(props.order.date)} 
+                            Date Ordered: {props.order.date} 
                             </Card.Text>
                         </p>
                     </div>
@@ -63,6 +64,7 @@ const Cards = (props)=>{
                              axios.post('http://localhost:5000/api/orderupdate',{
                                  orderID : props.order._id
                              })
+                             window.location.reload();
                          }}>Cancel Order &nbsp; <FaIcons.FaTrash/></Button>
                     </div>
                 </div>
